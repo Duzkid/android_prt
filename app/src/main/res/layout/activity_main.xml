@@ -10,21 +10,24 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="match_parent"
-        android:layout_height="216dp"
-        android:layout_marginTop="20sp"
-        app:srcCompat="@drawable/cyrene"/>
-
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="LOGIN"
+        android:text="Login Akun"
         android:textAlignment="center"
+        android:textColor="#F0407C"
         android:textSize="34sp"
         android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/imgCyrene"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="24dp"
+        android:src="@drawable/cyrene"
+        android:contentDescription="Gambar Cyrene" />
 
     <TextView
         android:id="@+id/textView2"
