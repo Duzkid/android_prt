@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AndroidPertama">
         <activity
+            android:name=".DashboardActivity"
+            android:exported="false" />
+        <activity
             android:name=".formActivity"
             android:exported="false" />
         <activity

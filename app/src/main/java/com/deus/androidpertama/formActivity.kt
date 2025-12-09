@@ -1,11 +1,11 @@
 package com.deus.androidpertama
 
+import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import com.deus.androidpertama.R
+import androidx.appcompat.app.AppCompatActivity
 
 class formActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,11 +42,25 @@ class formActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            Toast.makeText(
-                this,
-                "User $firstName $lastName berhasil didaftarkan omedetto",
-                Toast.LENGTH_LONG
-            ).show()
+            val db = AbsensiDatabase.getInstance(applicationContext)
+            val savedId = db.userDao().insertUser(
+                UserEntity(
+                    username = username,
+                    email = email,
+                    firstName = firstName,
+                    lastName = lastName,
+                    password = password
+                )
+            )
+
+            val intent = Intent(this, DashboardActivity::class.java).apply {
+                putExtra("username", username)
+                putExtra("email", email)
+                putExtra("firstName", firstName)
+                putExtra("lastName", lastName)
+                putExtra("userId", savedId.toInt())
+            }
+            startActivity(intent)
         }
 
         cancelButton.setOnClickListener {
