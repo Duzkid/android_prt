@@ -10,15 +10,31 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/textView"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Login Akun"
-        android:textAlignment="center"
-        android:textColor="#F0407C"
-        android:textSize="34sp"
-        android:textStyle="bold" />
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="10dp">
+
+        <ImageView
+            android:id="@+id/imgMy"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/my"
+            android:contentDescription="Icon Android" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Login Akun"
+            android:textAlignment="center"
+            android:textColor="#F0407C"
+            android:textSize="34sp"
+            android:textStyle="bold" />
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/imgCyrene"
@@ -34,14 +50,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30sp"
-        android:text="Username" />
+        android:text="Username/Email" />
 
     <EditText
         android:id="@+id/editTextusername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Masukkan username anda"
+        android:hint="Masukkan username/email anda"
         android:inputType="text"
         android:text="" />
 

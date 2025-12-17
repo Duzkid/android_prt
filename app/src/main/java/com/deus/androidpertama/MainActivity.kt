@@ -26,21 +26,29 @@ class MainActivity : AppCompatActivity() {
         val btnDaftar = findViewById<Button>(R.id.buttonDaftar)
 
         btnLogin.setOnClickListener {
-            val username = usernameField.text.toString().trim()
+            val usernameOrEmail = usernameField.text.toString().trim()
             val password = passwordField.text.toString().trim()
 
-            if (username.isEmpty() || password.isEmpty()) {
-                Toast.makeText(this, "Username dan password wajib diisi", Toast.LENGTH_SHORT).show()
+            if (usernameOrEmail.isEmpty() || password.isEmpty()) {
+                Toast.makeText(this, "Username/Email dan password wajib diisi", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
             val db = AbsensiDatabase.getInstance(applicationContext)
-            val user = db.userDao().getUserByUsername(username)
+            // Coba login dengan username dulu
+            var user = db.userDao().getUserByUsername(usernameOrEmail)
+            
+            // Jika tidak ditemukan dengan username, coba dengan email
+            if (user == null) {
+                user = db.userDao().getUserByEmail(usernameOrEmail)
+            }
 
             if (user == null || user.password != password) {
-                Toast.makeText(this, "Username atau password salah", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Username/Email atau password salah", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
+
+            Toast.makeText(this, "Anda login sebagai ${user.username}", Toast.LENGTH_SHORT).show()
 
             val intent = Intent(this, DashboardActivity::class.java).apply {
                 putExtra("username", user.username)

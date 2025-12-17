@@ -105,12 +105,20 @@
                 android:text="TextView" />
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/buttonLogout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20sp"
                 android:backgroundTint="#FB508A"
                 android:text="Logout" />
+
+            <Button
+                android:id="@+id/buttonAbsen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20sp"
+                android:backgroundTint="#E027FF"
+                android:text="Absen" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

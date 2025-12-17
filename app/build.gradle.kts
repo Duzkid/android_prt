@@ -46,6 +46,13 @@ dependencies {
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
     ksp(libs.androidx.room.compiler)
+    
+    // OSMdroid untuk peta OpenStreetMap
+    implementation(libs.osmdroid.android)
+    
+    // Google Play Services Location untuk mendapatkan lokasi
+    implementation(libs.play.services.location)
+    
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
