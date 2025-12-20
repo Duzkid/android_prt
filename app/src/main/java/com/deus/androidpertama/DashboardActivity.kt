@@ -10,13 +10,17 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.lifecycleScope
 import android.widget.TextView
 import android.widget.Button
 import android.widget.Toast
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class DashboardActivity : AppCompatActivity() {
     
     private val LOCATION_PERMISSION_REQUEST_CODE = 100
+    private var userId: Int = 0
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +46,7 @@ class DashboardActivity : AppCompatActivity() {
         val email = intent.getStringExtra("email") ?: latestUser?.email ?: "-"
         val firstName = intent.getStringExtra("firstName") ?: latestUser?.firstName ?: "-"
         val lastName = intent.getStringExtra("lastName") ?: latestUser?.lastName ?: "-"
+        userId = intent.getIntExtra("userId", latestUser?.id ?: 0)
 
         usernameView.text = username
         emailView.text = email
@@ -70,8 +75,7 @@ class DashboardActivity : AppCompatActivity() {
         
         if (hasPermission) {
             // Permission sudah diberikan, tampilkan map dengan lokasi user
-            showMapDialog(true)
-            Toast.makeText(this, "Absen Berhasil", Toast.LENGTH_SHORT).show()
+            showMapDialog(true, userId)
         } else {
             // Request permission
             ActivityCompat.requestPermissions(this, permissions, LOCATION_PERMISSION_REQUEST_CODE)
@@ -91,18 +95,41 @@ class DashboardActivity : AppCompatActivity() {
             
             if (permissionGranted) {
                 // Permission diberikan, tampilkan map dengan lokasi user
-                showMapDialog(true)
-                Toast.makeText(this, "Absen Berhasil", Toast.LENGTH_SHORT).show()
+                showMapDialog(true, userId)
             } else {
                 // Permission ditolak, tampilkan map dengan lokasi default Bandung
-                showMapDialog(false)
-                Toast.makeText(this, "Absen Berhasil (Lokasi default: Bandung)", Toast.LENGTH_SHORT).show()
+                showMapDialog(false, userId)
+                // Simpan absensi dengan lokasi default Bandung
+                saveAttendanceWithDefaultLocation(userId)
             }
         }
     }
     
-    private fun showMapDialog(hasLocationPermission: Boolean) {
-        val dialog = MapDialogFragment.newInstance(hasLocationPermission)
+    private fun showMapDialog(hasLocationPermission: Boolean, userId: Int) {
+        val dialog = MapDialogFragment.newInstance(hasLocationPermission, userId)
         dialog.show(supportFragmentManager, "MapDialog")
+    }
+    
+    private fun saveAttendanceWithDefaultLocation(userId: Int) {
+        // Simpan absensi dengan lokasi default Bandung jika permission ditolak
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                val db = AbsensiDatabase.getInstance(applicationContext)
+                val attendance = AttendanceEntity(
+                    user_id = userId,
+                    check_in_time = System.currentTimeMillis(),
+                    latitude = -6.9034, // Bandung
+                    longitude = 107.6175 // Bandung
+                )
+                db.attendanceDao().insertAttendance(attendance)
+                launch(Dispatchers.Main) {
+                    Toast.makeText(this@DashboardActivity, "Absen Berhasil (Lokasi default: Bandung)", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                launch(Dispatchers.Main) {
+                    Toast.makeText(this@DashboardActivity, "Error menyimpan absen: ${e.message}", Toast.LENGTH_LONG).show()
+                }
+            }
+        }
     }
 }

@@ -17,13 +17,6 @@
         android:gravity="center_vertical"
         android:layout_marginBottom="10dp">
 
-        <ImageView
-            android:id="@+id/imgMy"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:src="@drawable/my"
-            android:contentDescription="Icon Android" />
-
         <TextView
             android:id="@+id/textView"
             android:layout_width="0dp"
