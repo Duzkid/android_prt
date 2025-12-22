@@ -36,6 +36,7 @@ class DashboardActivity : AppCompatActivity() {
         val emailView = findViewById<TextView>(R.id.tvEmail)
         val firstNameView = findViewById<TextView>(R.id.tvFirstname)
         val lastNameView = findViewById<TextView>(R.id.tvLastname)
+        val addressView = findViewById<TextView>(R.id.tvAlamat)
         val logoutButton = findViewById<Button>(R.id.buttonLogout)
         val absenButton = findViewById<Button>(R.id.buttonAbsen)
 
@@ -52,6 +53,7 @@ class DashboardActivity : AppCompatActivity() {
         emailView.text = email
         firstNameView.text = firstName
         lastNameView.text = lastName
+        addressView.text = "-" // Bisa diganti alamat asli nanti
 
         logoutButton.setOnClickListener {
             finish()
